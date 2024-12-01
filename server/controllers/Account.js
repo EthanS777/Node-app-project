@@ -54,6 +54,7 @@ const changePass = async (req, res) => {
   }
 };
 
+// user login
 const login = (req, res) => {
   const username = `${req.body.username}`;
   const pass = `${req.body.pass}`;
@@ -73,6 +74,7 @@ const login = (req, res) => {
   });
 };
 
+// user signup
 const signup = async (req, res) => {
   const username = `${req.body.username}`;
   const pass = `${req.body.pass}`;
@@ -103,6 +105,7 @@ const signup = async (req, res) => {
   }
 };
 
+// for a 404 if URL is invalid
 const failPage = (req, res) => res.status(404).json({ error: 'Page does not exist!' });
 
 module.exports = {

@@ -51,6 +51,7 @@ const makeTask = async (req, res) => {
   }
 };
 
+// DELETE a task
 const deleteTask = async (req, res) => {
   const ownerId = req.session.account._id;
   const taskId = req.params.id;
@@ -69,6 +70,7 @@ const deleteTask = async (req, res) => {
   }
 };
 
+// Get a task by its ID
 const getTaskById = async (req, res) => {
   const taskId = req.params.id;
   const ownerId = req.session.account._id;
