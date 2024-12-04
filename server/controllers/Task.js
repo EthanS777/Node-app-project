@@ -65,7 +65,7 @@ const deleteTask = async (req, res) => {
 
     return res.status(200).json({ message: 'Task deleted successfully' });
   } catch (err) {
-    console.error(err);
+    console.log(err);
     return res.status(500).json({ error: 'Failed to delete task' });
   }
 };
@@ -84,8 +84,32 @@ const getTaskById = async (req, res) => {
 
     return res.status(200).json(task);
   } catch (err) {
-    console.error(err);
+    console.log(err);
     return res.status(500).json({ error: 'Failed to fetch task' });
+  }
+};
+
+// Update an individual task
+const updateTask = async (req, res) => {
+  const taskId = req.params.id;
+  const ownerId = req.session.account._id;
+
+  try {
+    const updatedTask = await Task.findOneAndUpdate(
+      { _id: taskId, owner: ownerId }, 
+      { $set: req.body },             
+      { new: true, runValidators: true } 
+    );
+
+    if (!updatedTask) {
+      return res.status(404).json({ error: 'Task not found' });
+    }
+
+    return res.status(200).json(updatedTask);
+  }
+  catch (err) {
+    console.log(err);
+    return res.status(500).json({error: 'Failed to update task'});
   }
 };
 
@@ -95,4 +119,5 @@ module.exports = {
   getTasks,
   deleteTask,
   getTaskById,
+  updateTask
 };

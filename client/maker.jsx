@@ -54,28 +54,83 @@ const TaskForm = ({newTask, handleInputChange, handleCreateTask}) => (
 );
 
 // component to render the TASK LIST (current tasks)
-// props: pass in tasks state, delete task function
-const TaskList = ({ tasks, handleDeleteTask }) => (
+// props: pass in tasks state, delete, edit task function
+const TaskList = ({ tasks, handleDeleteTask, handleEditTask, editTask, handleEditInputChange, handleUpdateTask }) => (
   <ul className="task-list">
-    {tasks.length !== 0 ? tasks.map((task) => (
+    {tasks.length !== 0 ? tasks.map((task) => ( // If there is a task, loop through
       <li key={task._id} className="task-list-item">
-        <span className="task-title">{task.title} {task.dueDate ? `- ${new Date(task.dueDate).toLocaleDateString()}` : ''} {task.description ? `- ${task.description}` : ''}</span>
-        <button
-          onClick={() => handleDeleteTask(task._id)}
-          className="task-delete-button"
-        >
-          Delete
-        </button>
+        {editTask && editTask._id === task._id ? (
+          // IF task is being edited, change UI
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleUpdateTask(task._id, editTask);
+            }}
+          >
+            <input
+              type="text"
+              name="title"
+              value={editTask.title}
+              onChange={handleEditInputChange}
+              className="task-input task-title-input"
+            />
+            <textarea
+              name="description"
+              value={editTask.description}
+              onChange={handleEditInputChange}
+              className="task-input task-description-input"
+            />
+            <input
+              type="date"
+              name="dueDate"
+              value={editTask.dueDate}
+              onChange={handleEditInputChange}
+              className="task-input task-date-input"
+            />
+            <button type="submit" className="task-update-button">
+              Save
+            </button>
+            <button
+              type="button"
+              className="task-cancel-button"
+              onClick={() => handleEditTask(null)}
+            >
+              Cancel
+            </button>
+          </form>
+        ) : (
+          // ELSE: NORMAL tasks viewing UI - adding an edit button to allow edits
+          <>
+            <span className="task-title">
+              {task.title} {task.dueDate ? `- ${new Date(task.dueDate).toLocaleDateString('en-US', { timeZone: 'UTC' })}` : ''}
+              {task.description ? `- ${task.description}` : ''}
+            </span>
+            <button
+              onClick={() => handleEditTask(task)}
+              className="task-edit-button"
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => handleDeleteTask(task._id)}
+              className="task-delete-button"
+            >
+              Delete
+            </button>
+          </>
+        )}
       </li>
     )) : <h1 className="noTasks">None Yet!</h1>}
   </ul>
 );
 
-// component to combine above ones and render the whole app page
+
+// MAIN component to combine above ones and render the whole app page
 const TaskManager = () => {
   // states to keep track of overall tasks and new ones
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState({ title: '', description: '', dueDate: '' });
+  const [editTask, setEditTask] = useState(null);
 
   // Fetch tasks on first load
   useEffect(() => {
@@ -99,12 +154,41 @@ const TaskManager = () => {
       helper.handleInfo('Error fetching tasks:', err);
     }
   };
+ 
+  // handle updating a task 
+  const handleUpdateTask = async (id, updatedTask) => {
+    // using PUT to update task information
+    try {
+      const response = await fetch(`/getTasks/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedTask),
+      });
+
+      const data = await response.json();
+
+      if (data.error) {
+        helper.handleInfo(data.error);
+      } else {
+        helper.handleInfo('Task updated!');
+        setEditTask(null); 
+        fetchTasks(); 
+      }
+    } catch (err) {
+      helper.handleInfo('Error updating task:', err);
+    }
+  }
 
   // change the state to update the new task when text/input changed
   const handleInputChange = (e) => {
     setNewTask({ ...newTask, [e.target.name]: e.target.value });
     helper.hideError();
   };
+  
+   // change the state to update the EDITED task
+  const handleUpdateChange = (e) => {
+    setEditTask({...editTask, [e.target.name]: e.target.value});
+  }
 
   // ON SUBMIT: create a task
   const handleCreateTask = async (e) => {
@@ -178,6 +262,10 @@ const TaskManager = () => {
 
         <TaskList tasks={tasks}
           handleDeleteTask={handleDeleteTask}
+          handleEditTask={(task) => setEditTask(task)}
+          editTask={editTask}
+          handleEditInputChange={handleUpdateChange}
+          handleUpdateTask={handleUpdateTask}
         />
       </div>
 

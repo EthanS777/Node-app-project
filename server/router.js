@@ -5,8 +5,10 @@ const router = (app) => {
   app.get('/getTasks', mid.requiresLogin, controllers.Task.getTasks);
   app.post('/makeTask', mid.requiresLogin, controllers.Task.makeTask);
 
-  // using ".delete" here
+  // using ".delete" and ".put" here to delete/update
   app.delete('/getTasks/:id', mid.requiresLogin, controllers.Task.deleteTask);
+  app.put('/getTasks/:id', mid.requiresLogin, controllers.Task.updateTask);
+
 
   app.get('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);

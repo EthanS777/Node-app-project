@@ -50,6 +50,7 @@ const PassChangeForm = () => {
 const App = () => {
   return ( 
     <div id="passChange">
+      <h1>Change Account Password</h1>
       <PassChangeForm />
     </div>
   );
