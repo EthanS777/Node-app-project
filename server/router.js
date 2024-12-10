@@ -9,7 +9,6 @@ const router = (app) => {
   app.delete('/getTasks/:id', mid.requiresLogin, controllers.Task.deleteTask);
   app.put('/getTasks/:id', mid.requiresLogin, controllers.Task.updateTask);
 
-
   app.get('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
 

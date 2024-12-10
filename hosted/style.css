@@ -4,6 +4,7 @@ html, body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    background-color: rgb(219, 252, 216);
 }
 
 #logo {
@@ -130,12 +131,12 @@ nav:nth-child(1) {
 }
 
 #passChange {
-    background-color: #77c590;
+    background-color: #9df1b8;
     padding: 2rem;
     border-radius: 20px;
     box-shadow: 0 4px 6px rgba(58, 58, 127, 0.584);
     width: 100%;
-    max-width: 400px;
+    max-width: 390px;
     box-sizing: border-box;
     margin-left: 35%;
     margin-top: 5%;
@@ -145,6 +146,20 @@ nav:nth-child(1) {
    display: flex;
    flex-direction: column;
    gap: 1rem;
+   max-width: 50%;
+   background-color: #4eb86c;
+   color: white;
+   padding: 10px 10px;
+   margin-left: 40px;
+   border-radius: 5px;
+}
+
+#change-pass-form button {
+  background-color: rgb(29, 78, 29);
+  color: white;
+  border: none;
+  height: 40px;
+  width: 80%;
 }
 
 .task-manager-container {
@@ -152,7 +167,7 @@ nav:nth-child(1) {
     margin: 0 auto;
     padding: 20px;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #c6eac6;
+    background-color: #b4dab4;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
@@ -175,7 +190,7 @@ nav:nth-child(1) {
     padding: 5%;
     border: 3px solid #4ab869;
     border-radius: 5px;
-    background-color: #d6fbd3;
+    background-color: #cef2cb;
     min-width: 300px;
     max-width: 90%;
   }
@@ -263,11 +278,11 @@ nav:nth-child(1) {
     padding: 5px 10px;
     font-size: 0.9rem;
     background-color: #dc3545;
-    color: #fff;
+    color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    height: 40%;
   }
   
   .task-delete-button:hover {
@@ -278,11 +293,11 @@ nav:nth-child(1) {
     padding: 5px 10px;
     font-size: 0.9rem;
     background-color: #3549dc;
-    color: #fff;
+    color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    height: 40%;
   }
 
   .noTasks {
@@ -307,3 +322,76 @@ nav:nth-child(1) {
     height: 50px;
     margin-top: 15px;
   }
+ 
+  /* Button styles */
+  .task-update-button {
+    background-color: green;
+    color: white;
+    border: none;
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-right: 10px;
+ }
+
+ .task-cancel-button {
+   background-color: #dc3545;
+   color: white;
+   border: none;
+   font-size: 0.9rem;
+   padding: 5px 10px;
+   border-radius: 4px;
+   cursor: pointer;
+   margin-top: 10px;
+ }
+ 
+ /* Update styles */
+ .update-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 25%;
+    margin-bottom: 20px;
+    max-width: 50%;
+ }
+
+ .task-input, .task-title-input {
+  margin-bottom: 15px;
+  background-color: rgb(242, 255, 242);
+ }
+ 
+ /* NEW task list info */
+ .task-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+ }
+
+ .task-details {
+  flex-grow: 1;
+  margin-right: 1rem;
+ }
+
+ .task-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.task-due-date {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.task-description {
+  font-size: 1rem;
+  color: #333;
+  margin-top: 0.5rem;
+}
+
+.task-actions {
+  display: flex;
+  gap: 0.5rem;
+}

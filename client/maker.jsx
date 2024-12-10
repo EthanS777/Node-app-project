@@ -57,10 +57,10 @@ const TaskForm = ({newTask, handleInputChange, handleCreateTask}) => (
 // props: pass in tasks state, delete, edit task function
 const TaskList = ({ tasks, handleDeleteTask, handleEditTask, editTask, handleEditInputChange, handleUpdateTask }) => (
   <ul className="task-list">
-    {tasks.length !== 0 ? tasks.map((task) => ( // If there is a task, loop through
+    {tasks.length !== 0 ? tasks.map((task) => ( // If there is a task, loop through 
       <li key={task._id} className="task-list-item">
         {editTask && editTask._id === task._id ? (
-          // IF task is being edited, change UI
+          // IF task is being edited (& ID exists), change UI
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -101,22 +101,37 @@ const TaskList = ({ tasks, handleDeleteTask, handleEditTask, editTask, handleEdi
         ) : (
           // ELSE: NORMAL tasks viewing UI - adding an edit button to allow edits
           <>
-            <span className="task-title">
-              {task.title} {task.dueDate ? `- ${new Date(task.dueDate).toLocaleDateString('en-US', { timeZone: 'UTC' })}` : ''}
-              {task.description ? `- ${task.description}` : ''}
-            </span>
-            <button
-              onClick={() => handleEditTask(task)}
-              className="task-edit-button"
-            >
-              Edit
-            </button>
-            <button
-              onClick={() => handleDeleteTask(task._id)}
-              className="task-delete-button"
-            >
-              Delete
-            </button>
+           <div className="task-content">
+              <div className="task-details">
+                <h4 className="task-title">
+                  {task.title}
+                </h4>
+                {task.dueDate && (
+                  <p className="task-due-date">
+                    {new Date(task.dueDate).toLocaleDateString('en-US', { timeZone: 'UTC' })}
+                  </p>
+                )}
+                {task.description && (
+                  <p className="task-description">
+                    {task.description}
+                  </p>
+                )}
+              </div>
+              <div className="task-actions">
+                <button
+                  onClick={() => handleEditTask(task)}
+                  className="task-edit-button"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDeleteTask(task._id)}
+                  className="task-delete-button"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
           </>
         )}
       </li>

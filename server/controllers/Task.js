@@ -96,9 +96,9 @@ const updateTask = async (req, res) => {
 
   try {
     const updatedTask = await Task.findOneAndUpdate(
-      { _id: taskId, owner: ownerId }, 
-      { $set: req.body },             
-      { new: true, runValidators: true } 
+      { _id: taskId, owner: ownerId },
+      { $set: req.body },
+      { new: true, runValidators: true },
     );
 
     if (!updatedTask) {
@@ -106,10 +106,9 @@ const updateTask = async (req, res) => {
     }
 
     return res.status(200).json(updatedTask);
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err);
-    return res.status(500).json({error: 'Failed to update task'});
+    return res.status(500).json({ error: 'Failed to update task' });
   }
 };
 
@@ -119,5 +118,5 @@ module.exports = {
   getTasks,
   deleteTask,
   getTaskById,
-  updateTask
+  updateTask,
 };
